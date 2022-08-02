@@ -1,0 +1,43 @@
+use Bhavnacorp
+drop table personal_details
+drop table Official_details
+drop table salary
+
+create table personal_Details(
+emp_id int primary key,
+emp_name varchar(30),
+adress varchar(40),
+emp_email varchar(50),
+pincode numeric
+)
+
+insert into personal_Details values (1,'ashu', 'new delhi','ashu@gmail.com', 110096)
+insert into personal_Details values (2,'Manish', 'mohali','manish@gmail.com', 113096)
+insert into personal_Details values (3,'ashutosh', 'noida','ashutosh@gmail.com', 110396)
+insert into personal_Details values (4,'kashish', 'austrial','kashish@gmail.com', 110986)
+
+select * from personal_Details
+
+
+
+create table official_details(
+emp_id int references  personal_details(emp_id),
+department varchar(30),
+job_location varchar(20),
+shift_time int
+)
+drop table official_details
+insert into official_details values ( 1,'java developer','noida',10)
+insert into official_details values ( 2,' senior java developer','hyderbad',10)
+
+Create table salary(
+salary_id int references personal_details(emp_id),
+total_salary numeric(18,8),
+bonus int,
+present_day int
+)
+
+insert into salary values (1,2000.99,0,20)
+
+select *from salary
+select * from official_details 
