@@ -1,0 +1,93 @@
+USE Bhavnacorp
+CREATE TABLE products(
+product_id int PRIMARY KEY,
+product_price int,
+discount varchar(30),
+product_name nvarchar(50),
+product_company nvarchar(50)
+)
+INSERT INTO products VALUES (1, 100, 5,'box','toefel')
+INSERT INTO products VALUES (2, 103, 2,'facepack','ayur')
+INSERT INTO products VALUES (3, 104, 0,'chacolate','amul')
+INSERT INTO products VALUES (4, 110, 4,'cd drive','driver')
+INSERT INTO products VALUES (5, 150, 8,'laptop key','hp')
+
+CREATE TABLE customer(
+cust_id INT PRIMARY KEY IDENTITY(1001,1),
+cust_name NVARCHAR(20),
+city NVARCHAR(30),
+pincode INT
+)
+INSERT INTO customer VALUES('Raj','mohali',110096)
+INSERT INTO customer VALUES('ashutosh','firozpur',1100986)
+INSERT INTO customer VALUES('amit','landran',110099)
+INSERT INTO customer VALUES('mohit','moga',19923)
+INSERT INTO customer VALUES('monu','new delhi',110032)
+
+
+
+CREATE TABLE orders(
+order_id INT PRIMARY KEY IDENTITY(101,1),
+cust_id INT,
+product_id int,
+order_date VARCHAR(30)
+)
+
+INSERT INTO orders VALUES (1001,1,'2 Aug')
+INSERT INTO orders VALUES (1002,2,'4 Aug')
+INSERT INTO orders VALUES (1003,3,'5 Aug')
+INSERT INTO orders VALUES (1004,4,'6 Aug')
+INSERT INTO orders VALUES (1005,5,'7 Aug')
+
+
+
+CREATE TABLE accounts(
+cust_id INT PRIMARY KEY IDENTITY(1001,1),
+order_id int,
+product_id int,
+payment_status NVARCHAR(10),
+payment_mode NVARCHAR(20),
+
+)
+
+INSERT INTO accounts VALUES (101,1,'yes','online')
+INSERT INTO accounts VALUES (102,2,'no','COD')
+INSERT INTO accounts VALUES (103,3,'yes','online')
+INSERT INTO accounts VALUES (104,4,'No','COD')
+INSERT INTO accounts VALUES (105,5,'yes','online')
+
+
+
+
+CREATE VIEW cutomer_view AS
+SELECT payment_status, product_name, product_price
+FROM products AS P
+INNER JOIN accounts AS A
+ON P.product_id =A.product_id
+
+SELECT * FROM cutomer_view
+
+CREATE VIEW accounts_derpartment_view AS
+SELECT SUM(product_price) AS 'Total sales ammout'
+FROM products AS P
+INNER JOIN accounts AS A
+ON P.product_id = A.product_id AND A.payment_status='YES'
+
+SELECT * FROM accounts_derpartment_view
+
+CREATE VIEW ORDER_VIEW AS 
+SELECT order_id, order_date, cust_name, city
+FROM orders AS RO
+INNER JOIN customer AS C
+
+ON RO.cust_id = C.cust_id
+
+Select * from ORDER_VIEW
+
+
+CREATE VIEW PRODUCT_VIEW AS
+SELECT product_name, product_company, payment_status
+
+FROM products AS P
+INNER JOIN accounts AS A
+ON P.product_id = A.product_id
